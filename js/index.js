@@ -25,6 +25,14 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
   });
+  
+  // function startTimer() {
+  
+  // window.onload = function (){
+  //   var fiveMinutes = 60*0.15;
+  //   display = document.querySelector("#time");
+  //   startTimer(fiveMinutes, display);
+  // }
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
@@ -44,6 +52,17 @@ window.addEventListener('DOMContentLoaded', () => {
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
     },
+    {
+      q: 'Which planet(s) is/are in between Earth and Sun?',
+      o: ['Mercury and Mars', 'Mercury and Venus', 'Just Mercury', 'None of these'],
+      a: 1,
+    },
+    {
+      q: 'How big is the Earth\'s radius?',
+      o: ['4000  miles', '5000 miles', '6000 miles', '8000 miles'],
+      a: 0,
+    }
+
   ];
 
   // function to Display the quiz questions and answers from the object
@@ -62,12 +81,18 @@ window.addEventListener('DOMContentLoaded', () => {
       quizWrap.innerHTML = quizDisplay;
     });
   };
-
+ 
+  
+  
+  let displayResult = document.querySelector("#btnSubmit");
+  displayResult.addEventListener("click", calculateScore);
+  
   // Calculate the score
-  const calculateScore = () => {
+  function calculateScore (e) {
     let score = 0;
+
     quizArray.map((quizItem, index) => {
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 4 ; i++) {
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
@@ -76,15 +101,39 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (quizItem.a == i) {
           //change background color of li element here
+          liElement.style.color = '#90ee90';
+        }else{
+          liElement.style.color = '#ff0000';
         }
+        
 
         if (radioElement.checked) {
           // code for task 1 goes here
-        }
+                    
+           score++; 
+          }
+
+        
+       
       }
+        
+      
+        
+      
+      let displayScore = document.querySelector("#score");
+			displayScore.innerHTML = `Your Score is ${score}`;
     });
+     e.preventDefault();
   };
 
   // call the displayQuiz function
   displayQuiz();
 });
+
+let quizReset = document.querySelector("#btnReset");
+quizReset.addEventListener("click", function(e) {
+  document.getElementById("#btnReset").checked = false;
+  return false;
+});
+
+
